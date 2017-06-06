@@ -173,11 +173,16 @@ This element work with the Google Maps API. You need a valid API Key. You can ge
             } else {
                 rawInput = this.$.inputPaper.root.querySelector('#input');
             }
+            console.log(rawInput)
+            this.autocomplete = new window.google.maps.places.Autocomplete(rawInput, this.options);
+            window.google.maps.event.addListener(this.autocomplete, 'place_changed', this.echo);
+        },
 
-            this.autocomplete = new google.maps.places.Autocomplete(rawInput, this.options);
-            google.maps.event.addListener(this.autocomplete, 'place_changed', this._onChangePlace.bind(this));
+        echo: function(e) {
+            console.log(e);
         },
         _onChangePlace: function() {
+            console.log("Changed place")
             this.$.inputPaper.invalid = false;
             this.place = this.autocomplete.getPlace();
             this.locationName = this.autocomplete.getPlace().formatted_address;
