@@ -166,23 +166,10 @@ This element work with the Google Maps API. You need a valid API Key. You can ge
             this.place = {};
         },
         _onApiLoad: function() {
-            var rawInput;
-
-            if (this.$.inputPaper.querySelector('#input')) {
-                rawInput = this.$.inputPaper.querySelector('#input');
-            } else {
-                rawInput = this.$.inputPaper.root.querySelector('#input');
-            }
-            console.log(rawInput)
-            this.autocomplete = new window.google.maps.places.Autocomplete(rawInput, this.options);
-            window.google.maps.event.addListener(this.autocomplete, 'place_changed', this.echo);
-        },
-
-        echo: function(e) {
-            console.log(e);
+            this.autocomplete = new window.google.maps.places.Autocomplete(this.$.inputPaper, this.options);
+            window.google.maps.event.addListener(this.autocomplete, 'place_changed', this._onChangePlace.bind(this));
         },
         _onChangePlace: function() {
-            console.log("Changed place")
             this.$.inputPaper.invalid = false;
             this.place = this.autocomplete.getPlace();
             this.locationName = this.autocomplete.getPlace().formatted_address;
